@@ -2,6 +2,8 @@ package com.stackroute.muzix.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+
 public class Track {
 
     @Id

@@ -4,76 +4,104 @@ import com.stackroute.muzix.dao.TrackDao;
 import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.model.Track;
+import com.stackroute.muzix.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 public class TrackController {
 
+    HashMap<String, Object> responseObject;
+
     @Autowired
-    TrackDao trackDao;
+    TrackService trackService;
 
     // Create
     @PostMapping(path="/track", consumes={"application/json"})
-    public ResponseEntity<Track> addAlien(@RequestBody Track track) throws TrackAlreadyExistsException {
-        List<Track> t = trackDao.findTrackByName(track.getTrackname());
-        if(t.size() != 0){
-            throw new TrackAlreadyExistsException("Track "+track.getTrackname()+" already exists!");
+    public ResponseEntity<HashMap<String, Object>> addTrack(@RequestBody Track track) throws TrackAlreadyExistsException {
 
-        }
-        trackDao.save(track);
-        return new ResponseEntity<Track>(track, HttpStatus.OK);
+        Track t = trackService.addTrack(track);
+
+        responseObject = new HashMap<>();
+        responseObject.put("result", t);
+        responseObject.put("msg", "Track Added!");
+        responseObject.put("error", "false");
+
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
     // Read
     @GetMapping(path="/tracks")
-    public List<Track> getTracks(){
+    public ResponseEntity<HashMap<String, Object>> getTracks(){
 
-        return trackDao.findAll();
+        List<Track> t = trackService.getTracks();
 
+        responseObject = new HashMap<>();
+        responseObject.put("result", t);
+        responseObject.put("msg", "Success!");
+        responseObject.put("error", "false");
+
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
-
+//
     // Update
     @PutMapping(path="/track/{tid}", consumes={"application/json"})
-    public String saveOrUpdateTrack(@RequestBody Track track){
+    public ResponseEntity<HashMap<String, Object>> saveOrUpdateTrack(@RequestBody Track track){
 
+        String msg = trackService.saveOrUpdateTrack(track);
 
-        trackDao.save(track);
+        responseObject = new HashMap<>();
+        responseObject.put("result", msg);
+        responseObject.put("msg", "Edit Successful!");
+        responseObject.put("error", "false");
 
-        return "Track "+ track.getTrackname()+ " Updated!";
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
 
     }
-
+//
     // Delete
     @DeleteMapping("/track/{tid}")
-    public String deleteTrack(@PathVariable int tid){
-        Track t = trackDao.getOne(tid);
+    public ResponseEntity<HashMap<String, Object>> deleteTrack(@PathVariable int tid){
 
-        trackDao.delete(t);
+        String msg = trackService.deleteTrack(tid);
 
-        return "Deleted!";
+        responseObject = new HashMap<>();
+        responseObject.put("result", msg);
+        responseObject.put("msg", "Success!");
+        responseObject.put("error", "false");
+
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
     // Get tracks by year
     @GetMapping("/tracks/{year}")
-    public List<Track> getTracksByYear(@PathVariable int year) throws TrackNotFoundException {
-        List<Track> t = trackDao.findTrackByYear(year);
-        if(t.size() == 0)
-            throw new TrackNotFoundException("No tracks found for the year "+year+"!");
-        return t;
-    }
+    public ResponseEntity<HashMap<String, Object>> getTracksByYear(@PathVariable int year) throws TrackNotFoundException {
+        List<Track> t = trackService.getTracksByYear(year);
 
+        responseObject = new HashMap<>();
+        responseObject.put("result", t);
+        responseObject.put("msg", "Success!");
+        responseObject.put("error", "false");
+
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+//
     // Get Tracks by language
     @GetMapping("/tracks/language/{language}")
-    public List<Track> getTracksByLanguage(@PathVariable String language) throws TrackNotFoundException {
-        List<Track> t = trackDao.findTrackByLanguage(language);
-        if(t.size() == 0)
-            throw new TrackNotFoundException("No tracks found for "+language+" language!");
-        return t;
+    public ResponseEntity<HashMap<String, Object>> getTracksByLanguage(@PathVariable String language) throws TrackNotFoundException {
+        List<Track> t = trackService.getTracksByLanguage(language);
+
+        responseObject = new HashMap<>();
+        responseObject.put("result", t);
+        responseObject.put("msg", "Success!");
+        responseObject.put("error", "false");
+
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
 
