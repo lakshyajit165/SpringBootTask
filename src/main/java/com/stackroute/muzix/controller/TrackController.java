@@ -5,6 +5,8 @@ import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +19,14 @@ public class TrackController {
 
     // Create
     @PostMapping(path="/track", consumes={"application/json"})
-    public Track addAlien(@RequestBody Track track) throws TrackAlreadyExistsException {
+    public ResponseEntity<Track> addAlien(@RequestBody Track track) throws TrackAlreadyExistsException {
         List<Track> t = trackDao.findTrackByName(track.getTrackname());
         if(t.size() != 0){
             throw new TrackAlreadyExistsException("Track "+track.getTrackname()+" already exists!");
+
         }
         trackDao.save(track);
-        return track;
+        return new ResponseEntity<Track>(track, HttpStatus.OK);
     }
 
     // Read
@@ -66,8 +69,10 @@ public class TrackController {
 
     // Get Tracks by language
     @GetMapping("/tracks/language/{language}")
-    public List<Track> getTracksByLanguage(@PathVariable String language){
+    public List<Track> getTracksByLanguage(@PathVariable String language) throws TrackNotFoundException {
         List<Track> t = trackDao.findTrackByLanguage(language);
+        if(t.size() == 0)
+            throw new TrackNotFoundException("No tracks found for "+language+" language!");
         return t;
     }
 
