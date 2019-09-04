@@ -5,10 +5,12 @@ import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Profile("prod")
 @Service("dummy")
 public class DummyTrackService implements ServiceManager{
 
