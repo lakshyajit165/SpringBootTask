@@ -1,10 +1,15 @@
 package com.stackroute.muzix.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@Getter
+@Setter
 public class Track {
 
     @Id
@@ -35,69 +40,69 @@ public class Track {
         this.language = language;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public String getTrackname() {
-        return trackname;
-    }
-
-    public void setTrackname(String trackname) {
-        this.trackname = trackname;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+//
+//    public int getDuration() {
+//        return duration;
+//    }
+//
+//    public void setDuration(int duration) {
+//        this.duration = duration;
+//    }
+//
+//    public int getYear() {
+//        return year;
+//    }
+//
+//    public void setYear(int year) {
+//        this.year = year;
+//    }
+//
+//    public String getTrackname() {
+//        return trackname;
+//    }
+//
+//    public void setTrackname(String trackname) {
+//        this.trackname = trackname;
+//    }
+//
+//    public String getArtist() {
+//        return artist;
+//    }
+//
+//    public void setArtist(String artist) {
+//        this.artist = artist;
+//    }
+//
+//    public String getGenre() {
+//        return genre;
+//    }
+//
+//    public void setGenre(String genre) {
+//        this.genre = genre;
+//    }
+//
+//    public String getAlbum() {
+//        return album;
+//    }
+//
+//    public void setAlbum(String album) {
+//        this.album = album;
+//    }
+//
+//    public String getLanguage() {
+//        return language;
+//    }
+//
+//    public void setLanguage(String language) {
+//        this.language = language;
+//    }
 
     @Override
     public String toString() {
