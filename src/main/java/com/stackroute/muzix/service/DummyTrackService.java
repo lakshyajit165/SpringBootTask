@@ -5,14 +5,12 @@ import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@Primary
-public class TrackService implements ServiceManager {
+@Service("dummy")
+public class DummyTrackService implements ServiceManager{
 
     @Autowired
     TrackDao trackDao;
@@ -28,7 +26,7 @@ public class TrackService implements ServiceManager {
     }
 
     public List<Track> getTracks(){
-        System.out.println("IN Primary!");
+        System.out.println("IN Dummy Service!");
         return trackDao.findAll();
     }
 
@@ -45,7 +43,7 @@ public class TrackService implements ServiceManager {
         return "Track Deleted!";
     }
 
-    public List<Track> getTracksByYear(int year) throws TrackNotFoundException{
+    public List<Track> getTracksByYear(int year) throws TrackNotFoundException {
         List<Track> t = trackDao.findTrackByYear(year);
         if(t.size() == 0)
             throw new TrackNotFoundException("No tracks found for the year "+year+"!");
